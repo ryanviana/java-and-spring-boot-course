@@ -3,11 +3,11 @@ package br.com.alura.screenmatch.model;
 public class Filme {
 
     private String titulo;
-    private String duracaoEmMinutos;
-    private String anoLancamento;
+    private Integer duracaoEmMinutos;
+    private Integer anoLancamento;
     private String genero;
 
-    public Filme(String titulo, String duracao, String ano, String genero) {
+    public Filme(String titulo, Integer duracao, Integer ano, String genero) {
         this.titulo = titulo;
         this.duracaoEmMinutos = duracao;
         this.anoLancamento = ano;
@@ -16,7 +16,7 @@ public class Filme {
 
     public Filme(DadosCadastroFilme dados){
 
-        this.titulo = dados.titulo();
+        this.titulo = dados.nome();
         this.duracaoEmMinutos = dados.duracao();
         this.anoLancamento = dados.ano();
         this.genero = dados.genero();
@@ -31,11 +31,11 @@ public class Filme {
         return titulo;
     }
 
-    public String getDuracaoEmMinutos() {
+    public Integer getDuracaoEmMinutos() {
         return duracaoEmMinutos;
     }
 
-    public String getAnoLancamento() {
+    public Integer getAnoLancamento() {
         return anoLancamento;
     }
 
