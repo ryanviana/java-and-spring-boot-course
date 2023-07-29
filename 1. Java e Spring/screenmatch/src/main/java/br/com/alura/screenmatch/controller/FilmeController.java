@@ -33,7 +33,6 @@ public class FilmeController {
     public String cadastraFilme(DadosCadastroFilme dados) {
         var filme = new Filme(dados);
         filmes.add(filme);
-
         return "redirect:/filmes";
     }
 
