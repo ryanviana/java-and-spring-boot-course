@@ -6,11 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.alura.screenmatch.model.DadosCadastroFilme;
 import br.com.alura.screenmatch.model.Filme;
 import br.com.alura.screenmatch.repository.FilmeRepository;
+import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/filmes")
@@ -20,7 +22,11 @@ public class FilmeController {
     private FilmeRepository repository;
 
     @GetMapping("/formulario")
-    public String carregaPaginaFormulario() {
+    public String carregaPaginaFormulario(Long id, Model model) {
+        if (id != null) {
+            var filme = repository.getReferenceById(id);
+            model.addAttribute("filme", filme);
+        }
         return "filmes/formulario";
     }
 
@@ -31,6 +37,7 @@ public class FilmeController {
     }
 
     @PostMapping
+    @Transactional
     public String cadastraFilme(DadosCadastroFilme dados) {
         var filme = new Filme(dados);
         repository.save(filme);
@@ -38,8 +45,18 @@ public class FilmeController {
     }
 
     @DeleteMapping
-    public String removeFilme(Long id){
+    @Transactional
+    public String removeFilme(Long id) {
         repository.deleteById(id);
+        return "redirect:/filmes";
+    }
+
+    @PutMapping
+    @Transactional
+    public String alteraFilme(DadosAlteracaoFilme dados) {
+        var filme = repository.getReferenceById(dados.id());
+        filme.atualizaDados(dados);
+        //JPA atualiza sozinho no  banco de dados quando o método é transacional
         return "redirect:/filmes";
     }
 
